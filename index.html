@@ -34,17 +34,53 @@
         color: #ffffff;
         text-shadow: 0 0 10px #00ffe0;
     }
-    .lang-switch button {
+    .language-menu {
+        position: relative;
+    }
+    .language-toggle {
         background: transparent;
         border: 1px solid #00ffe0;
         color: #00ffe0;
-        padding: 6px 12px;
-        margin-left: 5px;
-        border-radius: 5px;
+        padding: 7px 12px;
+        border-radius: 7px;
         cursor: pointer;
         transition: 0.3s;
+        font-family: inherit;
     }
-    .lang-switch button:hover {
+    .language-toggle:hover,
+    .language-menu.open .language-toggle {
+        background: #00ffe0;
+        color: #000;
+    }
+    .language-options {
+        display: none;
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        min-width: 170px;
+        background: #000;
+        border: 1px solid #00ffe0;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 0 15px #00ffe0;
+        z-index: 50;
+        animation: fadeIn 0.2s ease;
+    }
+    .language-menu.open .language-options {
+        display: flex;
+        flex-direction: column;
+    }
+    .language-options button {
+        border: 0;
+        background: transparent;
+        color: #00ffe0;
+        padding: 11px 14px;
+        cursor: pointer;
+        font-family: inherit;
+        text-align: left;
+        transition: 0.2s;
+    }
+    .language-options button:hover {
         background: #00ffe0;
         color: #000;
     }
@@ -223,9 +259,11 @@
     body.mobile-mode .logo {
         font-size: 1.25rem;
     }
-    body.mobile-mode .lang-switch button {
-        padding: 5px 9px;
-        margin-left: 3px;
+    body.mobile-mode .language-toggle {
+        padding: 6px 10px;
+    }
+    body.mobile-mode .language-options {
+        min-width: 155px;
     }
     body.mobile-mode .links {
         flex-direction: column;
@@ -360,10 +398,13 @@
 
 <header>
     <a class="logo" href="#" onclick="goHome(event)" aria-label="На главную">ParaElys</a>
-    <div class="lang-switch">
-        <button onclick="setLang('ru')">RU</button>
-        <button onclick="setLang('en')">EN</button>
-        <button onclick="setLang('ua')">UA</button>
+    <div class="language-menu" id="languageMenu">
+        <button class="language-toggle" id="languageToggle" type="button" onclick="toggleLanguageMenu(event)">Язык ▼</button>
+        <div class="language-options">
+            <button type="button" onclick="setLang('ru')">Русский</button>
+            <button type="button" onclick="setLang('en')">English</button>
+            <button type="button" onclick="setLang('ua')">Українська</button>
+        </div>
     </div>
 </header>
 
@@ -449,6 +490,7 @@
 
     const translations = {
         ru: {
+            languageLabel: 'Язык',
             support: '💖 Поддержка',
             email: '📧 Связь по рекламе',
             rulesMenu: 'Правила сообщества',
@@ -466,6 +508,7 @@
             Дисклеймер: Мы не несем ответственность за действия пользователей вне наших платформ и за сторонний контент.`
         },
         en: {
+            languageLabel: 'Language',
             support: '💖 Support',
             email: '📧 Advertising inquiries',
             rulesMenu: 'Community Rules',
@@ -483,6 +526,7 @@
             Disclaimer: We are not responsible for users' actions outside our platforms or for third-party content.`
         },
         ua: {
+            languageLabel: 'Мова',
             support: '💖 Підтримка',
             email: '📧 Зв’язок щодо реклами',
             rulesMenu: 'Правила спільноти',
@@ -512,19 +556,36 @@
         const willOpen = !dropdown.classList.contains('open');
 
         closeDropdowns(dropdown);
+        closeLanguageMenu();
         dropdown.classList.toggle('open', willOpen);
     }
 
-    // Закрываем Steam/TikTok при клике в любом месте вне выпадающих меню.
+    function toggleLanguageMenu(event) {
+        event.stopPropagation();
+        const menu = document.getElementById('languageMenu');
+        const willOpen = !menu.classList.contains('open');
+        closeDropdowns();
+        menu.classList.toggle('open', willOpen);
+    }
+
+    function closeLanguageMenu() {
+        document.getElementById('languageMenu')?.classList.remove('open');
+    }
+
+    // Закрываем раскрывающиеся меню при клике вне них.
     document.addEventListener('click', event => {
         if (!event.target.closest('.dropdown')) {
             closeDropdowns();
+        }
+        if (!event.target.closest('.language-menu')) {
+            closeLanguageMenu();
         }
     });
 
     function goHome(event) {
         event.preventDefault();
         closeDropdowns();
+        closeLanguageMenu();
         closeRules();
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -567,7 +628,9 @@
         document.getElementById('rulesTitle').textContent = t.rulesTitle;
         document.getElementById('rulesText').innerHTML = t.rulesHtml;
         document.querySelector('.logo').setAttribute('aria-label', t.homeLabel);
+        document.getElementById('languageToggle').textContent = t.languageLabel + ' ▼';
         updateVersionSwitchText();
+        closeLanguageMenu();
     }
 
     function openRules() {
