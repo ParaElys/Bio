@@ -233,10 +233,13 @@
         gap: 12px;
         margin-top: 25px;
         padding: 0 15px;
+        width: 100%;
+        box-sizing: border-box;
     }
     body.mobile-mode .column {
         width: 100%;
-        max-width: 320px;
+        max-width: 360px;
+        box-sizing: border-box;
     }
     body.mobile-mode .link-btn {
         display: block;
@@ -253,19 +256,28 @@
         box-sizing: border-box;
     }
     body.mobile-mode .support {
-        margin: 30px 15px 0;
+        margin: 30px auto 0;
+        width: calc(100% - 30px);
+        max-width: 360px;
         padding: 18px 12px;
+        box-sizing: border-box;
     }
     body.mobile-mode .support-links {
         flex-direction: column;
         width: 100%;
-        max-width: 320px;
+        max-width: none;
+        box-sizing: border-box;
     }
     body.mobile-mode .support a {
         display: block;
+        width: 100%;
+        box-sizing: border-box;
     }
     body.mobile-mode .email-contact {
-        margin: 20px 15px 35px;
+        margin: 20px auto 35px;
+        width: calc(100% - 30px);
+        max-width: 360px;
+        box-sizing: border-box;
     }
     body.mobile-mode .email-contact a {
         box-sizing: border-box;
@@ -279,6 +291,11 @@
     body.mobile-mode .modal-content {
         box-sizing: border-box;
         padding: 25px 18px;
+    }
+    body.mobile-mode footer {
+        box-sizing: border-box;
+        padding-left: 15px;
+        padding-right: 15px;
     }
 
     /* Полная версия принудительно сохраняет исходную компоновку */
@@ -384,7 +401,7 @@
 </div>
 
 <div class="support">
-    <h2>💖 Поддержка</h2>
+    <h2 id="supportTitle">💖 Поддержка</h2>
     <div class="support-links">
         <a href="#" target="_blank" rel="noopener noreferrer">💳 PayPal</a>
         <a href="https://send.monobank.ua/jar/ATRMQ6Q4ir" target="_blank" rel="noopener noreferrer">🏦 Monobank</a>
@@ -396,7 +413,7 @@
 </div>
 
 <div class="email-contact">
-     <a href="mailto:paraelys.info@gmail.com?subject=Реклама&amp;body=Здравствуйте!" 
+     <a id="emailContactLink" href="mailto:paraelys.info@gmail.com?subject=Реклама&amp;body=Здравствуйте!" 
        onclick="window.open('https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=paraelys.info@gmail.com&amp;su=Реклама&amp;body=Здравствуйте!', '_blank', 'noopener,noreferrer'); return false;">
        📧 Связь по рекламе
     </a>
@@ -405,7 +422,7 @@
 <!-- Футер -->
 <footer>
     <div class="rules-menu" onclick="openRules()">Правила сообщества</div>
-    <div style="margin-top:5px;">© 2025 ParaElys | Все права защищены</div>
+    <div id="copyrightText" style="margin-top:5px;">© 2025 ParaElys | Все права защищены</div>
     <div class="version-switch" id="versionSwitch" onclick="toggleVersion()">Мобильная версия</div>
 </footer>
 
@@ -413,8 +430,8 @@
 <div class="modal" id="rulesModal">
     <div class="modal-content">
         <span class="modal-close" onclick="closeRules()">&times;</span>
-        <h2>📜 Правила сообщества</h2>
-        <p>
+        <h2 id="rulesTitle">📜 Правила сообщества</h2>
+        <p id="rulesText">
         Добро пожаловать! Ниже приведены правила поведения на всех продуктах ParaElys.<br><br>
         1. Уважайте других пользователей.<br>
         2. Запрещено оскорбление, спам и реклама без согласия.<br>
@@ -428,6 +445,61 @@
 
 <script>
     let currentVersion = 'desktop';
+    let currentLang = 'ru';
+
+    const translations = {
+        ru: {
+            support: '💖 Поддержка',
+            email: '📧 Связь по рекламе',
+            rulesMenu: 'Правила сообщества',
+            copyright: '© 2025 ParaElys | Все права защищены',
+            mobileVersion: 'Мобильная версия',
+            fullVersion: 'Полная версия',
+            rulesTitle: '📜 Правила сообщества',
+            homeLabel: 'На главную',
+            rulesHtml: `Добро пожаловать! Ниже приведены правила поведения на всех продуктах ParaElys.<br><br>
+            1. Уважайте других пользователей.<br>
+            2. Запрещено оскорбление, спам и реклама без согласия.<br>
+            3. Контент, нарушающий законы, запрещен.<br>
+            4. Все донаты, покупки и транзакции проходят через официальные каналы.<br>
+            5. Администрация оставляет за собой право удалять сообщения или блокировать пользователей за нарушение правил.<br><br>
+            Дисклеймер: Мы не несем ответственность за действия пользователей вне наших платформ и за сторонний контент.`
+        },
+        en: {
+            support: '💖 Support',
+            email: '📧 Advertising inquiries',
+            rulesMenu: 'Community Rules',
+            copyright: '© 2025 ParaElys | All rights reserved',
+            mobileVersion: 'Mobile version',
+            fullVersion: 'Full version',
+            rulesTitle: '📜 Community Rules',
+            homeLabel: 'Back to home',
+            rulesHtml: `Welcome! Below are the rules of conduct for all ParaElys products.<br><br>
+            1. Respect other users.<br>
+            2. Insults, spam, and advertising without permission are prohibited.<br>
+            3. Content that violates the law is prohibited.<br>
+            4. All donations, purchases, and transactions must go through official channels.<br>
+            5. The administration reserves the right to remove messages or block users for violating the rules.<br><br>
+            Disclaimer: We are not responsible for users' actions outside our platforms or for third-party content.`
+        },
+        ua: {
+            support: '💖 Підтримка',
+            email: '📧 Зв’язок щодо реклами',
+            rulesMenu: 'Правила спільноти',
+            copyright: '© 2025 ParaElys | Усі права захищені',
+            mobileVersion: 'Мобільна версія',
+            fullVersion: 'Повна версія',
+            rulesTitle: '📜 Правила спільноти',
+            homeLabel: 'На головну',
+            rulesHtml: `Ласкаво просимо! Нижче наведено правила поведінки на всіх продуктах ParaElys.<br><br>
+            1. Поважайте інших користувачів.<br>
+            2. Заборонені образи, спам і реклама без дозволу.<br>
+            3. Контент, що порушує закон, заборонений.<br>
+            4. Усі донати, покупки та транзакції мають проходити через офіційні канали.<br>
+            5. Адміністрація залишає за собою право видаляти повідомлення або блокувати користувачів за порушення правил.<br><br>
+            Дисклеймер: Ми не несемо відповідальності за дії користувачів поза нашими платформами та за сторонній контент.`
+        }
+    };
 
     function closeDropdowns(except = null) {
         document.querySelectorAll('.dropdown').forEach(dropdown => {
@@ -463,14 +535,17 @@
         return mobileUserAgent || narrowScreen;
     }
 
+    function updateVersionSwitchText() {
+        const t = translations[currentLang];
+        const switcher = document.getElementById('versionSwitch');
+        switcher.textContent = currentVersion === 'mobile' ? t.fullVersion : t.mobileVersion;
+    }
+
     function applyVersion(version) {
         currentVersion = version;
         document.body.classList.toggle('mobile-mode', version === 'mobile');
         document.body.classList.toggle('desktop-mode', version === 'desktop');
-
-        const switcher = document.getElementById('versionSwitch');
-        switcher.textContent = version === 'mobile' ? 'Полная версия' : 'Мобильная версия';
-
+        updateVersionSwitchText();
         closeDropdowns();
     }
 
@@ -479,9 +554,20 @@
     }
 
     function setLang(lang) {
-        if(lang==='ru') document.querySelector('.rules-menu').innerText='Правила сообщества';
-        if(lang==='en') document.querySelector('.rules-menu').innerText='Community Rules';
-        if(lang==='ua') document.querySelector('.rules-menu').innerText='Правила спільноти';
+        if (!translations[lang]) return;
+
+        currentLang = lang;
+        const t = translations[lang];
+
+        document.documentElement.lang = lang === 'ua' ? 'uk' : lang;
+        document.getElementById('supportTitle').textContent = t.support;
+        document.getElementById('emailContactLink').textContent = t.email;
+        document.querySelector('.rules-menu').textContent = t.rulesMenu;
+        document.getElementById('copyrightText').textContent = t.copyright;
+        document.getElementById('rulesTitle').textContent = t.rulesTitle;
+        document.getElementById('rulesText').innerHTML = t.rulesHtml;
+        document.querySelector('.logo').setAttribute('aria-label', t.homeLabel);
+        updateVersionSwitchText();
     }
 
     function openRules() {
@@ -496,6 +582,7 @@
     // При первом открытии мобильное устройство получает мобильную версию автоматически.
     document.addEventListener('DOMContentLoaded', () => {
         applyVersion(isMobileDevice() ? 'mobile' : 'desktop');
+        setLang(currentLang);
     });
 </script>
 
