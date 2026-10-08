@@ -448,3 +448,16 @@
 #copyrightText {
     margin-top: 5px;
 }
+
+
+/* Обычный системный шрифт для переведённого английского интерфейса */
+body.english-ui-font .language-toggle,
+body.english-ui-font .language-options button,
+body.english-ui-font .support-toggle,
+body.english-ui-font .email-contact a,
+body.english-ui-font .rules-menu,
+body.english-ui-font #copyrightText,
+body.english-ui-font .version-switch,
+body.english-ui-font .modal-content {
+    font-family: Arial, Helvetica, sans-serif;
+}
