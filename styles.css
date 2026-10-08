@@ -461,3 +461,19 @@ body.english-ui-font .version-switch,
 body.english-ui-font .modal-content {
     font-family: Arial, Helvetica, sans-serif;
 }
+
+
+/* Логотипы социальных платформ */
+.brand-icon {
+    width: 1.15em;
+    height: 1.15em;
+    flex: 0 0 auto;
+    object-fit: contain;
+    vertical-align: -0.18em;
+    margin-right: 0.45em;
+}
+.link-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
