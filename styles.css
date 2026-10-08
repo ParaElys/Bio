@@ -2,7 +2,7 @@
     body {
         margin: 0;
         font-family: 'Orbitron', sans-serif;
-        background: #000 url('background.png') center center / contain no-repeat fixed;
+        background: #000 url('background.png') center center / cover no-repeat fixed;
         color: #00ffe0;
         overflow-x: hidden;
     }
@@ -761,12 +761,17 @@ body.mobile-mode::before {
 
 .cosmic-stage {
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100lvh;
     z-index: -1;
     overflow: hidden;
     pointer-events: none;
     background: #000;
     transform: translateZ(0);
+    backface-visibility: hidden;
     contain: paint;
 }
 .cosmic-stage > * {
@@ -776,7 +781,7 @@ body.mobile-mode::before {
 }
 .cosmic-scene {
     inset: -2.5%;
-    background: #000 url('background.png?v=20261008-4') center center / contain no-repeat;
+    background: #000 url('background.png?v=20261008-5') center center / cover no-repeat;
     transform: scale(1.015);
     animation: cosmicSceneBreathe 16s ease-in-out infinite;
     will-change: transform, filter;
@@ -806,7 +811,7 @@ body.mobile-mode::before {
 }
 .cosmic-orbit {
     inset: -2.5%;
-    background: url('background.png?v=20261008-4') center center / contain no-repeat;
+    background: url('background.png?v=20261008-5') center center / cover no-repeat;
     clip-path: ellipse(35% 48% at 50% 45%);
     mix-blend-mode: screen;
     opacity: .16;
@@ -817,7 +822,7 @@ body.mobile-mode::before {
 }
 .cosmic-pe {
     inset: -2.5%;
-    background: url('background.png?v=20261008-4') center center / contain no-repeat;
+    background: url('background.png?v=20261008-5') center center / cover no-repeat;
     clip-path: polygon(29% 10%, 72% 10%, 72% 69%, 28% 69%);
     mix-blend-mode: screen;
     opacity: .20;
@@ -857,10 +862,16 @@ body.mobile-mode::before {
 
 /* Облегчённая анимация на смартфонах */
 @media (max-width: 768px) {
+    .cosmic-stage {
+        width: 100vw;
+        height: 100vh;
+        height: 100lvh;
+    }
     .cosmic-scene {
-        inset: -1.5%;
-        transform: scale(1.008);
-        animation-duration: 24s;
+        inset: 0;
+        background-position: center center;
+        transform: scale(1.006);
+        animation-duration: 26s;
     }
     .cosmic-rift {
         opacity: .32;
@@ -900,5 +911,13 @@ body.mobile-mode::before {
     .cosmic-pe,
     #cosmicParticles {
         display: none !important;
+    }
+}
+
+
+/* v5: фон всегда заполняет экран без чёрных полос и не меняет высоту при мобильном скролле */
+@supports (height: 100lvh) {
+    .cosmic-stage {
+        height: 100lvh;
     }
 }
