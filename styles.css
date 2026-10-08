@@ -2,7 +2,7 @@
     body {
         margin: 0;
         font-family: 'Orbitron', sans-serif;
-        background: #000 url('background.png') center center / cover no-repeat fixed;
+        background: #000;
         color: #00ffe0;
         overflow-x: hidden;
     }
@@ -285,30 +285,10 @@
     }
 
     /* Мобильная версия */
-    /*
-       На мобильных браузерах background-attachment: fixed может "прыгать"
-       при скрытии/появлении адресной строки. Поэтому фон рисуется отдельным
-       фиксированным слоем стабильной высоты и не пересчитывает масштаб при скролле.
-    */
     body.mobile-mode {
-        background: transparent;
+        background: #000;
         position: relative;
         isolation: isolate;
-    }
-    body.mobile-mode::before {
-        content: "";
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        height: 100lvh;
-        background:
-            #000 url('background.png') center center / contain no-repeat;
-        z-index: -1;
-        pointer-events: none;
-        transform: translateZ(0);
-        backface-visibility: hidden;
     }
     body.mobile-mode header {
         padding: 12px 15px;
@@ -702,12 +682,6 @@ body.kazakh-ui-font .soon-badge {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Симметричная рамка блока сотрудничества */
-.collaboration-options {
-    padding: 10px;
-}
-
-
 /* Настоящие флаги в меню языков */
 .flag-icon {
     width: 1.35em;
@@ -765,9 +739,6 @@ body {
 body.mobile-mode {
     background: #000 !important;
 }
-body.mobile-mode::before {
-    display: none !important;
-}
 
 .cosmic-stage {
     position: fixed;
@@ -791,7 +762,7 @@ body.mobile-mode::before {
 }
 .cosmic-scene {
     inset: -2.5%;
-    background: #000 url('background.png?v=20261008-5') center center / cover no-repeat;
+    background: #000 url('background.png?v=final-1') center center / cover no-repeat;
     transform: scale(1.015);
     animation: cosmicSceneBreathe 16s ease-in-out infinite;
     will-change: transform, filter;
@@ -821,7 +792,7 @@ body.mobile-mode::before {
 }
 .cosmic-orbit {
     inset: -2.5%;
-    background: url('background.png?v=20261008-5') center center / cover no-repeat;
+    background: url('background.png?v=final-1') center center / cover no-repeat;
     clip-path: ellipse(35% 48% at 50% 45%);
     mix-blend-mode: screen;
     opacity: .16;
@@ -832,7 +803,7 @@ body.mobile-mode::before {
 }
 .cosmic-pe {
     inset: -2.5%;
-    background: url('background.png?v=20261008-5') center center / cover no-repeat;
+    background: url('background.png?v=final-1') center center / cover no-repeat;
     clip-path: polygon(29% 10%, 72% 10%, 72% 69%, 28% 69%);
     mix-blend-mode: screen;
     opacity: .20;
