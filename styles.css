@@ -716,3 +716,30 @@ body.kazakh-ui-font .soon-badge {
 .language-toggle {
     white-space: nowrap;
 }
+
+
+/* Минималистичное меню языков: белый текст без рамки */
+.language-toggle {
+    border: 0;
+    background: transparent;
+    color: #ffffff;
+    box-shadow: none;
+    padding: 7px 4px;
+}
+.language-toggle:hover,
+.language-menu.open .language-toggle {
+    background: transparent;
+    color: #ffffff;
+    text-shadow: 0 0 8px rgba(255,255,255,.45);
+}
+.language-options {
+    border-color: rgba(255,255,255,.18);
+    box-shadow: 0 8px 24px rgba(0,0,0,.45);
+}
+.language-options button {
+    color: #ffffff;
+}
+.language-options button:hover {
+    background: rgba(255,255,255,.08);
+    color: #ffffff;
+}
