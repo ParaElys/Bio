@@ -477,3 +477,179 @@ body.english-ui-font .modal-content {
     align-items: center;
     justify-content: center;
 }
+
+
+/* Фирменные эффекты кнопок */
+.link-btn .brand-icon,
+.support-service .brand-icon {
+    transition: transform 0.25s ease, filter 0.25s ease;
+}
+.link-btn:hover .brand-icon,
+.support-service:hover .brand-icon {
+    transform: scale(1.15);
+}
+
+.brand-youtube:hover { border-color:#ff0000; box-shadow:0 0 18px #ff0000, 0 0 34px rgba(255,0,0,.35); }
+.brand-telegram:hover { border-color:#26a5e4; box-shadow:0 0 18px #26a5e4, 0 0 34px rgba(38,165,228,.35); }
+.brand-discord:hover { border-color:#5865f2; box-shadow:0 0 18px #5865f2, 0 0 34px rgba(88,101,242,.35); }
+.brand-steam:hover { border-color:#ffffff; box-shadow:0 0 18px #ffffff, 0 0 34px rgba(255,255,255,.2); }
+.brand-tiktok:hover { border-color:#fe2c55; box-shadow:0 0 18px #25f4ee, 0 0 34px rgba(254,44,85,.35); }
+.brand-instagram:hover { border-color:#e4405f; box-shadow:0 0 18px #e4405f, 0 0 34px rgba(228,64,95,.35); }
+.brand-twitch:hover { border-color:#9146ff; box-shadow:0 0 18px #9146ff, 0 0 34px rgba(145,70,255,.35); }
+.brand-x:hover { border-color:#ffffff; box-shadow:0 0 18px #ffffff, 0 0 34px rgba(255,255,255,.2); }
+
+.support-service {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+}
+.brand-paypal:hover { border-color:#0070e0; box-shadow:0 0 14px rgba(0,112,224,.75); }
+.brand-monobank:hover { border-color:#ffffff; box-shadow:0 0 14px rgba(255,255,255,.45); }
+.brand-donationalerts:hover { border-color:#f57d07; box-shadow:0 0 14px rgba(245,125,7,.7); }
+.brand-patreon:hover { border-color:#ff424d; box-shadow:0 0 14px rgba(255,66,77,.7); }
+.brand-boosty:hover { border-color:#f15f2c; box-shadow:0 0 14px rgba(241,95,44,.7); }
+
+.support-disabled {
+    opacity: 0.48;
+    cursor: not-allowed;
+    filter: grayscale(.35);
+}
+.support-disabled:hover {
+    background: transparent !important;
+    color: #ff80d5 !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+.support-disabled:hover .brand-icon {
+    transform: none;
+}
+.soon-badge {
+    margin-left: 8px;
+    padding: 2px 6px;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    font-size: .7em;
+    opacity: .9;
+}
+
+/* Улучшенный блок сотрудничества */
+.collaboration {
+    position: relative;
+}
+.collaboration-toggle {
+    background: #0088ff;
+    color: #fff;
+    border: 2px solid #0088ff;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font: inherit;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: .3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+.collaboration-toggle:hover,
+.collaboration.open .collaboration-toggle {
+    background: #00ccff;
+    border-color: #00ccff;
+    color: #000;
+    transform: scale(1.04);
+    box-shadow: 0 0 18px rgba(0,204,255,.55);
+}
+.collaboration-arrow {
+    transition: transform .25s ease;
+}
+.collaboration.open .collaboration-arrow {
+    transform: rotate(180deg);
+}
+.collaboration-options {
+    display: none;
+    width: min(360px, calc(100% - 30px));
+    margin: 10px auto 0;
+    padding: 10px;
+    background: rgba(0,0,0,.92);
+    border: 1px solid #0088ff;
+    border-radius: 14px;
+    box-shadow: 0 0 16px rgba(0,136,255,.35);
+    box-sizing: border-box;
+}
+.collaboration.open .collaboration-options {
+    display: grid;
+    gap: 8px;
+    animation: supportReveal .2s ease;
+}
+.collaboration-options a,
+.collaboration-options button {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #0088ff;
+    background: transparent;
+    color: #fff;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    transition: .2s;
+}
+.collaboration-options a:hover,
+.collaboration-options button:hover {
+    background: #0088ff;
+    color: #fff;
+}
+.copy-status {
+    min-height: 1em;
+    color: #00ffe0;
+    font-size: .8rem;
+}
+
+/* Лёгкое появление страницы */
+header,
+.links,
+.support,
+.email-contact,
+footer {
+    animation: pageReveal .55s ease both;
+}
+.links { animation-delay: .08s; }
+.support { animation-delay: .16s; }
+.email-contact { animation-delay: .22s; }
+footer { animation-delay: .28s; }
+@keyframes pageReveal {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+    header,
+    .links,
+    .support,
+    .email-contact,
+    footer,
+    .dropdown-content,
+    .support.open .support-links,
+    .collaboration.open .collaboration-options {
+        animation: none !important;
+    }
+    * {
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Английский системный шрифт также для новых элементов */
+body.english-ui-font .collaboration-toggle,
+body.english-ui-font .collaboration-options,
+body.english-ui-font .soon-badge {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Мобильная версия новых элементов */
+body.mobile-mode .collaboration-toggle {
+    max-width: 100%;
+    padding: 12px 20px;
+}
+body.mobile-mode .collaboration-options {
+    width: 100%;
+}
