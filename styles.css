@@ -949,3 +949,62 @@ body.mobile-mode::before {
 .social-disabled:hover .brand-icon {
     transform: none !important;
 }
+
+
+/* v7: строгое центрирование текста внутри кнопок */
+.link-btn,
+.support-service {
+    position: relative;
+    display: grid !important;
+    grid-template-columns: 1.6em minmax(0,1fr) auto;
+    align-items: center;
+    column-gap: 8px;
+}
+.link-btn .brand-icon,
+.support-service .brand-icon {
+    grid-column: 1;
+    justify-self: center;
+    margin-right: 0;
+}
+.link-btn .btn-label,
+.support-service .btn-label {
+    grid-column: 2;
+    justify-self: center;
+    text-align: center;
+    min-width: 0;
+}
+.link-btn .menu-arrow,
+.link-btn .soon-badge,
+.support-service .soon-badge {
+    grid-column: 3;
+    justify-self: end;
+}
+.link-btn:not(:has(.menu-arrow)):not(:has(.soon-badge)),
+.support-service:not(:has(.soon-badge)) {
+    grid-template-columns: 1.6em minmax(0,1fr) 1.6em;
+}
+
+/* Флаг выбранного языка без подписи и без рамки */
+.language-toggle {
+    padding: 5px;
+    min-width: auto;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+.language-toggle .flag-icon {
+    width: 1.6em;
+    height: 1.15em;
+}
+
+/* Единый фон блока поддержки в закрытом и открытом состоянии */
+.support {
+    background: rgba(10, 0, 8, .58);
+}
+.support-toggle,
+.support-toggle:hover,
+.support.open .support-toggle {
+    background: rgba(10, 0, 8, .58);
+}
+.support.open .support-links {
+    background: rgba(10, 0, 8, .58);
+}
