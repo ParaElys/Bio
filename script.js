@@ -5,9 +5,14 @@ let currentVersion = 'desktop';
         ru: {
             languageLabel: 'Язык',
             support: '💖 Поддержать проект ParaElys',
-            email: '🤝 Сотрудничество',
+            collaboration: '🤝 Сотрудничество',
+            emailAction: 'Написать на Email',
+            copyEmail: 'Скопировать Email',
+            copied: 'Email скопирован',
+            copyFailed: 'Не удалось скопировать — выделите адрес вручную',
+            soon: 'Скоро',
+            rights: 'Все права защищены',
             rulesMenu: 'Правила сообщества',
-            copyright: '© 2025 ParaElys | Все права защищены',
             mobileVersion: 'Мобильная версия',
             fullVersion: 'Полная версия',
             rulesTitle: '📜 Правила сообщества',
@@ -23,9 +28,14 @@ let currentVersion = 'desktop';
         en: {
             languageLabel: 'Language',
             support: '💖 Support the ParaElys project',
-            email: '🤝 Partnerships',
+            collaboration: '🤝 Partnerships',
+            emailAction: 'Write via Email',
+            copyEmail: 'Copy Email',
+            copied: 'Email copied',
+            copyFailed: 'Could not copy — select the address manually',
+            soon: 'Soon',
+            rights: 'All rights reserved',
             rulesMenu: 'Community Rules',
-            copyright: '© 2025 ParaElys | All rights reserved',
             mobileVersion: 'Mobile version',
             fullVersion: 'Full version',
             rulesTitle: '📜 Community Rules',
@@ -41,9 +51,14 @@ let currentVersion = 'desktop';
         ua: {
             languageLabel: 'Мова',
             support: '💖 Підтримати проєкт ParaElys',
-            email: '🤝 Співпраця',
+            collaboration: '🤝 Співпраця',
+            emailAction: 'Написати на Email',
+            copyEmail: 'Скопіювати Email',
+            copied: 'Email скопійовано',
+            copyFailed: 'Не вдалося скопіювати — виділіть адресу вручну',
+            soon: 'Скоро',
+            rights: 'Усі права захищені',
             rulesMenu: 'Правила спільноти',
-            copyright: '© 2025 ParaElys | Усі права захищені',
             mobileVersion: 'Мобільна версія',
             fullVersion: 'Повна версія',
             rulesTitle: '📜 Правила спільноти',
@@ -115,6 +130,33 @@ let currentVersion = 'desktop';
         return mobileUserAgent || narrowScreen;
     }
 
+    const SITE_START_YEAR = 2025;
+    const CONTACT_EMAIL = 'paraelys.info@gmail.com';
+
+    function savePreference(key, value) {
+        try {
+            localStorage.setItem(key, value);
+        } catch (_) {
+            // Сайт продолжит работать, даже если браузер запретил localStorage.
+        }
+    }
+
+    function loadPreference(key) {
+        try {
+            return localStorage.getItem(key);
+        } catch (_) {
+            return null;
+        }
+    }
+
+    function copyrightFor(lang) {
+        const currentYear = new Date().getFullYear();
+        const years = currentYear > SITE_START_YEAR
+            ? SITE_START_YEAR + '–' + currentYear
+            : String(SITE_START_YEAR);
+        return '© ' + years + ' ParaElys | ' + translations[lang].rights;
+    }
+
     function updateVersionSwitchText() {
         const t = translations[currentLang];
         const switcher = document.getElementById('versionSwitch');
@@ -126,6 +168,7 @@ let currentVersion = 'desktop';
         document.body.classList.toggle('mobile-mode', version === 'mobile');
         document.body.classList.toggle('desktop-mode', version === 'desktop');
         updateVersionSwitchText();
+        savePreference('paraelys-version', version);
         closeDropdowns();
     }
 
@@ -142,15 +185,55 @@ let currentVersion = 'desktop';
         document.documentElement.lang = lang === 'ua' ? 'uk' : lang;
         document.body.classList.toggle('english-ui-font', lang === 'en');
         document.getElementById('supportTitle').textContent = t.support;
-        document.getElementById('emailContactLink').textContent = t.email;
+        document.getElementById('collaborationTitle').textContent = t.collaboration;
+        document.getElementById('emailContactLink').textContent = t.emailAction;
+        document.getElementById('copyEmailButton').textContent = t.copyEmail;
+        document.querySelectorAll('[data-soon]').forEach(label => {
+            label.textContent = t.soon;
+        });
         document.querySelector('.rules-menu').textContent = t.rulesMenu;
-        document.getElementById('copyrightText').textContent = t.copyright;
+        document.getElementById('copyrightText').textContent = copyrightFor(lang);
         document.getElementById('rulesTitle').textContent = t.rulesTitle;
         document.getElementById('rulesText').innerHTML = t.rulesHtml;
         document.querySelector('.logo').setAttribute('aria-label', t.homeLabel);
         document.getElementById('languageToggle').textContent = t.languageLabel + ' ▼';
         updateVersionSwitchText();
+        savePreference('paraelys-language', lang);
         closeLanguageMenu();
+    }
+
+    function toggleCollaboration() {
+        const block = document.getElementById('collaborationBlock');
+        const toggle = document.getElementById('collaborationToggle');
+        const willOpen = !block.classList.contains('open');
+
+        closeDropdowns();
+        closeLanguageMenu();
+        block.classList.toggle('open', willOpen);
+        toggle.setAttribute('aria-expanded', String(willOpen));
+
+        if (!willOpen) {
+            document.getElementById('copyStatus').textContent = '';
+        }
+    }
+
+    function closeCollaboration() {
+        document.getElementById('collaborationBlock')?.classList.remove('open');
+        document.getElementById('collaborationToggle')?.setAttribute('aria-expanded', 'false');
+        const status = document.getElementById('copyStatus');
+        if (status) status.textContent = '';
+    }
+
+    async function copyContactEmail() {
+        const status = document.getElementById('copyStatus');
+        const t = translations[currentLang];
+
+        try {
+            await navigator.clipboard.writeText(CONTACT_EMAIL);
+            status.textContent = t.copied;
+        } catch (_) {
+            status.textContent = CONTACT_EMAIL + ' — ' + t.copyFailed;
+        }
     }
 
     function toggleSupport() {
@@ -192,7 +275,7 @@ let currentVersion = 'desktop';
         const message = emailMessages[currentLang] || emailMessages.ru;
         const subject = message.subject;
         const body = message.body;
-        const gmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1&to=paraelys.info@gmail.com'
+        const gmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(CONTACT_EMAIL)
             + '&su=' + encodeURIComponent(subject)
             + '&body=' + encodeURIComponent(body);
 
@@ -204,15 +287,24 @@ let currentVersion = 'desktop';
         }
     }
 
-    // При первом открытии мобильное устройство получает мобильную версию автоматически.
+    // При первом открытии используем сохранённые настройки, а если их нет —
+    // автоматически выбираем мобильную версию на смартфоне.
     document.addEventListener('DOMContentLoaded', () => {
-        applyVersion(isMobileDevice() ? 'mobile' : 'desktop');
+        const savedLang = loadPreference('paraelys-language');
+        const savedVersion = loadPreference('paraelys-version');
+
+        currentLang = translations[savedLang] ? savedLang : 'ru';
+        applyVersion(savedVersion === 'mobile' || savedVersion === 'desktop'
+            ? savedVersion
+            : (isMobileDevice() ? 'mobile' : 'desktop'));
         setLang(currentLang);
 
         const homeLink = document.getElementById('homeLink');
         const languageToggle = document.getElementById('languageToggle');
         const rulesMenu = document.getElementById('rulesMenu');
         const supportToggle = document.getElementById('supportToggle');
+        const collaborationToggle = document.getElementById('collaborationToggle');
+        const copyEmailButton = document.getElementById('copyEmailButton');
         const versionSwitch = document.getElementById('versionSwitch');
         const closeRulesButton = document.getElementById('closeRulesButton');
         const rulesModal = document.getElementById('rulesModal');
@@ -222,6 +314,8 @@ let currentVersion = 'desktop';
         languageToggle.addEventListener('click', toggleLanguageMenu);
         rulesMenu.addEventListener('click', openRules);
         supportToggle.addEventListener('click', toggleSupport);
+        collaborationToggle.addEventListener('click', toggleCollaboration);
+        copyEmailButton.addEventListener('click', copyContactEmail);
         versionSwitch.addEventListener('click', toggleVersion);
         closeRulesButton.addEventListener('click', closeRules);
         emailContactLink.addEventListener('click', openEmailContact);
@@ -229,6 +323,10 @@ let currentVersion = 'desktop';
         activateWithKeyboard(rulesMenu, openRules);
         activateWithKeyboard(versionSwitch, toggleVersion);
         activateWithKeyboard(closeRulesButton, closeRules);
+
+        document.querySelectorAll('.support-disabled').forEach(link => {
+            link.addEventListener('click', event => event.preventDefault());
+        });
 
         document.querySelectorAll('[data-lang]').forEach(button => {
             button.addEventListener('click', () => setLang(button.dataset.lang));
@@ -247,6 +345,7 @@ let currentVersion = 'desktop';
             if (event.key === 'Escape') {
                 closeDropdowns();
                 closeLanguageMenu();
+                closeCollaboration();
                 closeRules();
             }
         });
