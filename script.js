@@ -5,7 +5,7 @@ let currentVersion = 'desktop';
         ru: {
             languageLabel: 'Язык',
             support: '💖 Поддержать проект ParaElys',
-            email: '📧 Связь по рекламе',
+            email: '🤝 Сотрудничество',
             rulesMenu: 'Правила сообщества',
             copyright: '© 2025 ParaElys | Все права защищены',
             mobileVersion: 'Мобильная версия',
@@ -23,7 +23,7 @@ let currentVersion = 'desktop';
         en: {
             languageLabel: 'Language',
             support: '💖 Support the ParaElys project',
-            email: '📧 Advertising inquiries',
+            email: '🤝 Partnerships',
             rulesMenu: 'Community Rules',
             copyright: '© 2025 ParaElys | All rights reserved',
             mobileVersion: 'Mobile version',
@@ -41,7 +41,7 @@ let currentVersion = 'desktop';
         ua: {
             languageLabel: 'Мова',
             support: '💖 Підтримати проєкт ParaElys',
-            email: '📧 Зв’язок щодо реклами',
+            email: '🤝 Співпраця',
             rulesMenu: 'Правила спільноти',
             copyright: '© 2025 ParaElys | Усі права захищені',
             mobileVersion: 'Мобільна версія',
@@ -140,6 +140,7 @@ let currentVersion = 'desktop';
         const t = translations[lang];
 
         document.documentElement.lang = lang === 'ua' ? 'uk' : lang;
+        document.body.classList.toggle('english-ui-font', lang === 'en');
         document.getElementById('supportTitle').textContent = t.support;
         document.getElementById('emailContactLink').textContent = t.email;
         document.querySelector('.rules-menu').textContent = t.rulesMenu;
@@ -183,8 +184,14 @@ let currentVersion = 'desktop';
     function openEmailContact(event) {
         event.preventDefault();
 
-        const subject = 'Реклама';
-        const body = 'Здравствуйте!';
+        const emailMessages = {
+            ru: { subject: 'Сотрудничество', body: 'Здравствуйте!' },
+            en: { subject: 'Partnerships', body: 'Hello!' },
+            ua: { subject: 'Співпраця', body: 'Вітаю!' }
+        };
+        const message = emailMessages[currentLang] || emailMessages.ru;
+        const subject = message.subject;
+        const body = message.body;
         const gmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1&to=paraelys.info@gmail.com'
             + '&su=' + encodeURIComponent(subject)
             + '&body=' + encodeURIComponent(body);
