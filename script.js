@@ -3,7 +3,7 @@ let currentVersion = 'desktop';
 
     const translations = {
         ru: {
-            flag: '🇷🇺',
+            flagSrc: 'icons/flags/ru.svg',
             languageLabel: 'Язык',
             support: '💖 Поддержать проект ParaElys',
             collaboration: '🤝 Сотрудничество',
@@ -27,7 +27,7 @@ let currentVersion = 'desktop';
             Дисклеймер: Мы не несем ответственность за действия пользователей вне наших платформ и за сторонний контент.`
         },
         en: {
-            flag: '🇬🇧',
+            flagSrc: 'icons/flags/gb.svg',
             languageLabel: 'Language',
             support: '💖 Support the ParaElys project',
             collaboration: '🤝 Partnerships',
@@ -51,7 +51,7 @@ let currentVersion = 'desktop';
             Disclaimer: We are not responsible for users' actions outside our platforms or for third-party content.`
         },
         ua: {
-            flag: '🇺🇦',
+            flagSrc: 'icons/flags/ua.svg',
             languageLabel: 'Мова',
             support: '💖 Підтримати проєкт ParaElys',
             collaboration: '🤝 Співпраця',
@@ -75,7 +75,7 @@ let currentVersion = 'desktop';
             Дисклеймер: Ми не несемо відповідальності за дії користувачів поза нашими платформами та за сторонній контент.`
         },
         kz: {
-            flag: '🇰🇿',
+            flagSrc: 'icons/flags/kz.svg',
             languageLabel: 'Тіл',
             support: '💖 ParaElys жобасын қолдау',
             collaboration: '🤝 Ынтымақтастық',
@@ -224,7 +224,11 @@ let currentVersion = 'desktop';
         document.getElementById('rulesTitle').textContent = t.rulesTitle;
         document.getElementById('rulesText').innerHTML = t.rulesHtml;
         document.querySelector('.logo').setAttribute('aria-label', t.homeLabel);
-        document.getElementById('languageToggle').textContent = t.flag + ' ' + t.languageLabel + ' ▼';
+        const languageToggle = document.getElementById('languageToggle');
+        const languageFlag = languageToggle.querySelector('.flag-icon');
+        const languageLabel = document.getElementById('languageToggleLabel');
+        if (languageFlag) languageFlag.src = t.flagSrc;
+        if (languageLabel) languageLabel.textContent = t.languageLabel;
         updateVersionSwitchText();
         savePreference('paraelys-language', lang);
         closeLanguageMenu();
