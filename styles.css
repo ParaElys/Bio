@@ -2,7 +2,7 @@
     body {
         margin: 0;
         font-family: 'Orbitron', sans-serif;
-        background: url('background.png') center/cover no-repeat fixed, radial-gradient(circle at center, #0a0a0f, #000000);
+        background: #000 url('background.png') center center / contain no-repeat fixed;
         color: #00ffe0;
         overflow-x: hidden;
     }
@@ -294,8 +294,7 @@
         height: 100vh;
         height: 100lvh;
         background:
-            url('background.png') center center / cover no-repeat,
-            radial-gradient(circle at center, #0a0a0f, #000000);
+            #000 url('background.png') center center / contain no-repeat;
         z-index: -1;
         pointer-events: none;
         transform: translateZ(0);
@@ -601,9 +600,14 @@ body.english-ui-font .modal-content {
     color: #fff;
 }
 .copy-status {
-    min-height: 1em;
+    display: none;
     color: #00ffe0;
     font-size: .8rem;
+    text-align: center;
+    padding: 2px 4px 0;
+}
+.copy-status:not(:empty) {
+    display: block;
 }
 
 /* Лёгкое появление страницы */
@@ -671,4 +675,24 @@ body.mobile-mode .collaboration-options {
 .dropdown.open > .brand-tiktok {
     border-color: #fe2c55;
     box-shadow: 0 0 16px rgba(37,244,238,.7), 0 0 30px rgba(254,44,85,.32);
+}
+
+
+/* Для казахского интерфейса используем системный шрифт с полной поддержкой букв */
+body.kazakh-ui-font .language-toggle,
+body.kazakh-ui-font .language-options button,
+body.kazakh-ui-font .support-toggle,
+body.kazakh-ui-font .collaboration-toggle,
+body.kazakh-ui-font .collaboration-options,
+body.kazakh-ui-font .rules-menu,
+body.kazakh-ui-font #copyrightText,
+body.kazakh-ui-font .version-switch,
+body.kazakh-ui-font .modal-content,
+body.kazakh-ui-font .soon-badge {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Симметричная рамка блока сотрудничества */
+.collaboration-options {
+    padding: 10px;
 }
