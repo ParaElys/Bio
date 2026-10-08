@@ -3,6 +3,7 @@ let currentVersion = 'desktop';
 
     const translations = {
         ru: {
+            flag: '🇷🇺',
             languageLabel: 'Язык',
             support: '💖 Поддержать проект ParaElys',
             collaboration: '🤝 Сотрудничество',
@@ -26,6 +27,7 @@ let currentVersion = 'desktop';
             Дисклеймер: Мы не несем ответственность за действия пользователей вне наших платформ и за сторонний контент.`
         },
         en: {
+            flag: '🇬🇧',
             languageLabel: 'Language',
             support: '💖 Support the ParaElys project',
             collaboration: '🤝 Partnerships',
@@ -49,6 +51,7 @@ let currentVersion = 'desktop';
             Disclaimer: We are not responsible for users' actions outside our platforms or for third-party content.`
         },
         ua: {
+            flag: '🇺🇦',
             languageLabel: 'Мова',
             support: '💖 Підтримати проєкт ParaElys',
             collaboration: '🤝 Співпраця',
@@ -70,6 +73,30 @@ let currentVersion = 'desktop';
             4. Усі донати, покупки та транзакції мають проходити через офіційні канали.<br>
             5. Адміністрація залишає за собою право видаляти повідомлення або блокувати користувачів за порушення правил.<br><br>
             Дисклеймер: Ми не несемо відповідальності за дії користувачів поза нашими платформами та за сторонній контент.`
+        },
+        kz: {
+            flag: '🇰🇿',
+            languageLabel: 'Тіл',
+            support: '💖 ParaElys жобасын қолдау',
+            collaboration: '🤝 Ынтымақтастық',
+            emailAction: 'Email арқылы жазу',
+            copyEmail: 'Email көшіру',
+            copied: 'Email көшірілді',
+            copyFailed: 'Көшіру мүмкін болмады — мекенжайды қолмен таңдаңыз',
+            soon: 'Жақында',
+            rights: 'Барлық құқықтар қорғалған',
+            rulesMenu: 'Қауымдастық ережелері',
+            mobileVersion: 'Мобильді нұсқа',
+            fullVersion: 'Толық нұсқа',
+            rulesTitle: '📜 Қауымдастық ережелері',
+            homeLabel: 'Басты бетке',
+            rulesHtml: `Қош келдіңіз! Төменде ParaElys жобаларына арналған мінез-құлық ережелері берілген.<br><br>
+            1. Басқа пайдаланушыларды құрметтеңіз.<br>
+            2. Қорлау, спам және рұқсатсыз жарнамаға тыйым салынады.<br>
+            3. Заңды бұзатын контентке тыйым салынады.<br>
+            4. Барлық донаттар, сатып алулар және транзакциялар ресми арналар арқылы өтуі керек.<br>
+            5. Әкімшілік ережелерді бұзғаны үшін хабарламаларды өшіруге немесе пайдаланушыларды бұғаттауға құқылы.<br><br>
+            Ескерту: Біз платформаларымыздан тыс пайдаланушылардың әрекеттеріне және үшінші тарап контентіне жауапты емеспіз.`
         }
     };
 
@@ -182,8 +209,9 @@ let currentVersion = 'desktop';
         currentLang = lang;
         const t = translations[lang];
 
-        document.documentElement.lang = lang === 'ua' ? 'uk' : lang;
+        document.documentElement.lang = lang === 'ua' ? 'uk' : (lang === 'kz' ? 'kk' : lang);
         document.body.classList.toggle('english-ui-font', lang === 'en');
+        document.body.classList.toggle('kazakh-ui-font', lang === 'kz');
         document.getElementById('supportTitle').textContent = t.support;
         document.getElementById('collaborationTitle').textContent = t.collaboration;
         document.getElementById('emailContactLink').textContent = t.emailAction;
@@ -196,7 +224,7 @@ let currentVersion = 'desktop';
         document.getElementById('rulesTitle').textContent = t.rulesTitle;
         document.getElementById('rulesText').innerHTML = t.rulesHtml;
         document.querySelector('.logo').setAttribute('aria-label', t.homeLabel);
-        document.getElementById('languageToggle').textContent = t.languageLabel + ' ▼';
+        document.getElementById('languageToggle').textContent = t.flag + ' ' + t.languageLabel + ' ▼';
         updateVersionSwitchText();
         savePreference('paraelys-language', lang);
         closeLanguageMenu();
@@ -270,7 +298,8 @@ let currentVersion = 'desktop';
         const emailMessages = {
             ru: { subject: 'Сотрудничество', body: 'Здравствуйте!' },
             en: { subject: 'Partnerships', body: 'Hello!' },
-            ua: { subject: 'Співпраця', body: 'Вітаю!' }
+            ua: { subject: 'Співпраця', body: 'Вітаю!' },
+            kz: { subject: 'Ынтымақтастық', body: 'Сәлеметсіз бе!' }
         };
         const message = emailMessages[currentLang] || emailMessages.ru;
         const subject = message.subject;
