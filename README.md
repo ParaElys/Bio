@@ -1,2 +1,2 @@
 # ParaElys
-Это сайт с инфой о ParaElys
+Это сайт
