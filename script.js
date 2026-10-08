@@ -197,6 +197,7 @@ let currentVersion = 'desktop';
         updateVersionSwitchText();
         savePreference('paraelys-version', version);
         closeDropdowns();
+        window.refreshCosmicParticles?.();
     }
 
     function toggleVersion() {
@@ -320,6 +321,143 @@ let currentVersion = 'desktop';
         }
     }
 
+    function initCosmicParticles() {
+        const canvas = document.getElementById('cosmicParticles');
+        if (!canvas || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        const ctx = canvas.getContext('2d', { alpha: true });
+        if (!ctx) return;
+
+        let particles = [];
+        let rafId = 0;
+        let width = 0;
+        let height = 0;
+        let dpr = 1;
+        let liteMode = false;
+        let lastTime = 0;
+
+        function useLiteMode() {
+            return isMobileDevice()
+                || document.body.classList.contains('mobile-mode')
+                || window.innerWidth <= 768;
+        }
+
+        function particleCount() {
+            return liteMode ? 34 : Math.min(150, Math.max(95, Math.round((width * height) / 12500)));
+        }
+
+        function createParticle(randomPosition = true) {
+            const cx = width * 0.5;
+            const cy = height * 0.46;
+            const angle = Math.random() * Math.PI * 2;
+            const startRadius = randomPosition
+                ? Math.random() * Math.max(width, height) * 0.52
+                : (10 + Math.random() * 90);
+            const speed = (liteMode ? 0.018 : 0.028) + Math.random() * (liteMode ? 0.045 : 0.085);
+
+            return {
+                x: cx + Math.cos(angle) * startRadius,
+                y: cy + Math.sin(angle) * startRadius * 0.72,
+                vx: Math.cos(angle) * speed,
+                vy: Math.sin(angle) * speed * 0.72,
+                size: (liteMode ? 0.35 : 0.28) + Math.random() * (liteMode ? 0.65 : 1.05),
+                alpha: 0.18 + Math.random() * 0.62,
+                twinkle: 0.0015 + Math.random() * 0.0035,
+                phase: Math.random() * Math.PI * 2,
+                blue: 170 + Math.floor(Math.random() * 86)
+            };
+        }
+
+        function rebuild() {
+            liteMode = useLiteMode();
+            dpr = Math.min(window.devicePixelRatio || 1, liteMode ? 1 : 1.5);
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = Math.max(1, Math.round(width * dpr));
+            canvas.height = Math.max(1, Math.round(height * dpr));
+            canvas.style.width = width + 'px';
+            canvas.style.height = height + 'px';
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+            const wanted = particleCount();
+            particles = Array.from({ length: wanted }, () => createParticle(true));
+        }
+
+        function resetParticle(p) {
+            const fresh = createParticle(false);
+            Object.assign(p, fresh);
+        }
+
+        function draw(now) {
+            rafId = requestAnimationFrame(draw);
+
+            if (document.hidden) return;
+
+            // На телефонах рисуем примерно 30 кадров/с, на ПК — до 60.
+            const minFrame = liteMode ? 32 : 15;
+            if (now - lastTime < minFrame) return;
+            const dt = Math.min(2.5, Math.max(0.45, (now - lastTime) / 16.67 || 1));
+            lastTime = now;
+
+            ctx.clearRect(0, 0, width, height);
+            const cx = width * 0.5;
+            const cy = height * 0.46;
+            const maxX = width + 24;
+            const maxY = height + 24;
+
+            for (const p of particles) {
+                p.x += p.vx * dt;
+                p.y += p.vy * dt;
+
+                // Очень медленно ускоряем частицы от центра, как от разлома пространства.
+                const dx = p.x - cx;
+                const dy = p.y - cy;
+                const dist = Math.max(1, Math.hypot(dx, dy));
+                const push = liteMode ? 0.000018 : 0.00003;
+                p.vx += (dx / dist) * push * dt;
+                p.vy += (dy / dist) * push * dt;
+
+                if (p.x < -24 || p.x > maxX || p.y < -24 || p.y > maxY) {
+                    resetParticle(p);
+                }
+
+                const twinkle = 0.58 + Math.sin(now * p.twinkle + p.phase) * 0.42;
+                const alpha = Math.max(0.04, p.alpha * twinkle);
+                const radius = p.size;
+
+                ctx.beginPath();
+                ctx.fillStyle = 'rgba(' + (120 + Math.round(p.blue * 0.2)) + ',' + p.blue + ',255,' + alpha.toFixed(3) + ')';
+                ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Редкие микроскопические искры получают короткий хвост.
+                if (!liteMode && p.size > 1.0 && alpha > 0.45) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = 'rgba(120,210,255,' + (alpha * 0.24).toFixed(3) + ')';
+                    ctx.lineWidth = 0.45;
+                    ctx.moveTo(p.x, p.y);
+                    ctx.lineTo(p.x - p.vx * 24, p.y - p.vy * 24);
+                    ctx.stroke();
+                }
+            }
+        }
+
+        let resizeTimer = 0;
+        function scheduleRebuild() {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(rebuild, 120);
+        }
+
+        window.refreshCosmicParticles = rebuild;
+        window.addEventListener('resize', scheduleRebuild, { passive: true });
+        rebuild();
+        rafId = requestAnimationFrame(draw);
+
+        window.addEventListener('pagehide', () => {
+            cancelAnimationFrame(rafId);
+        }, { once: true });
+    }
+
     // При первом открытии используем сохранённые настройки, а если их нет —
     // автоматически выбираем мобильную версию на смартфоне.
     document.addEventListener('DOMContentLoaded', () => {
@@ -331,6 +469,7 @@ let currentVersion = 'desktop';
             ? savedVersion
             : (isMobileDevice() ? 'mobile' : 'desktop'));
         setLang(currentLang);
+        initCosmicParticles();
 
         const homeLink = document.getElementById('homeLink');
         const languageToggle = document.getElementById('languageToggle');
