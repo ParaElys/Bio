@@ -743,3 +743,162 @@ body.kazakh-ui-font .soon-badge {
     background: rgba(255,255,255,.08);
     color: #ffffff;
 }
+
+
+/* HYBRID COSMIC BACKGROUND v1 */
+body {
+    background: #000 !important;
+    position: relative;
+    isolation: isolate;
+    min-height: 100vh;
+}
+body.mobile-mode {
+    background: #000 !important;
+}
+body.mobile-mode::before {
+    display: none !important;
+}
+
+.cosmic-stage {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+    background: #000;
+    transform: translateZ(0);
+    contain: paint;
+}
+.cosmic-stage > * {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+.cosmic-scene {
+    inset: -2.5%;
+    background: #000 url('background.png?v=20261008-4') center center / contain no-repeat;
+    transform: scale(1.015);
+    animation: cosmicSceneBreathe 16s ease-in-out infinite;
+    will-change: transform, filter;
+}
+.cosmic-rift {
+    inset: -12%;
+    background:
+        radial-gradient(ellipse at 50% 44%,
+            rgba(40,180,255,.13) 0%,
+            rgba(0,95,255,.09) 18%,
+            rgba(0,30,90,.02) 37%,
+            transparent 57%),
+        conic-gradient(from 18deg at 50% 45%,
+            transparent 0deg,
+            rgba(30,160,255,.00) 46deg,
+            rgba(45,165,255,.12) 55deg,
+            transparent 67deg,
+            transparent 175deg,
+            rgba(30,100,255,.10) 186deg,
+            transparent 197deg,
+            transparent 360deg);
+    filter: blur(16px) saturate(1.25);
+    mix-blend-mode: screen;
+    opacity: .65;
+    animation: cosmicRiftPulse 11s ease-in-out infinite alternate;
+    will-change: transform, opacity;
+}
+.cosmic-orbit {
+    inset: -2.5%;
+    background: url('background.png?v=20261008-4') center center / contain no-repeat;
+    clip-path: ellipse(35% 48% at 50% 45%);
+    mix-blend-mode: screen;
+    opacity: .16;
+    filter: saturate(1.35) brightness(1.08);
+    transform-origin: 50% 45%;
+    animation: cosmicOrbitFloat 20s ease-in-out infinite alternate;
+    will-change: transform, opacity;
+}
+.cosmic-pe {
+    inset: -2.5%;
+    background: url('background.png?v=20261008-4') center center / contain no-repeat;
+    clip-path: polygon(29% 10%, 72% 10%, 72% 69%, 28% 69%);
+    mix-blend-mode: screen;
+    opacity: .20;
+    filter: saturate(1.35) brightness(1.12);
+    animation: cosmicPeLevitate 8s ease-in-out infinite;
+    will-change: transform, opacity;
+}
+#cosmicParticles {
+    width: 100%;
+    height: 100%;
+    opacity: .90;
+    mix-blend-mode: screen;
+}
+
+@keyframes cosmicSceneBreathe {
+    0%, 100% { transform: scale(1.015) translate3d(0,0,0); filter: brightness(.98) saturate(1.02); }
+    25% { transform: scale(1.022) translate3d(2px,-2px,0); filter: brightness(1.02) saturate(1.06); }
+    55% { transform: scale(1.018) translate3d(-2px,1px,0); filter: brightness(1.00) saturate(1.04); }
+    78% { transform: scale(1.024) translate3d(1px,2px,0); filter: brightness(1.03) saturate(1.07); }
+}
+@keyframes cosmicPeLevitate {
+    0%, 100% { transform: translate3d(0,0,0) scale(1.001); opacity:.17; }
+    22% { transform: translate3d(3px,-5px,0) scale(1.006); opacity:.22; }
+    48% { transform: translate3d(-3px,-1px,0) scale(1.003); opacity:.19; }
+    73% { transform: translate3d(4px,4px,0) scale(1.007); opacity:.23; }
+}
+@keyframes cosmicOrbitFloat {
+    0% { transform: rotate(-.32deg) scale(1.008); opacity:.12; }
+    50% { transform: rotate(.10deg) scale(1.014); opacity:.18; }
+    100% { transform: rotate(.38deg) scale(1.010); opacity:.14; }
+}
+@keyframes cosmicRiftPulse {
+    0% { transform: scale(.98) rotate(-.4deg); opacity:.42; }
+    55% { transform: scale(1.025) rotate(.25deg); opacity:.72; }
+    100% { transform: scale(1.01) rotate(.5deg); opacity:.55; }
+}
+
+/* Облегчённая анимация на смартфонах */
+@media (max-width: 768px) {
+    .cosmic-scene {
+        inset: -1.5%;
+        transform: scale(1.008);
+        animation-duration: 24s;
+    }
+    .cosmic-rift {
+        opacity: .32;
+        filter: blur(20px);
+        animation-duration: 18s;
+    }
+    .cosmic-orbit {
+        opacity: .08;
+        animation-duration: 30s;
+    }
+    .cosmic-pe {
+        opacity: .10;
+        animation-name: cosmicPeLevitateMobile;
+        animation-duration: 13s;
+    }
+    #cosmicParticles {
+        opacity: .68;
+    }
+}
+@keyframes cosmicPeLevitateMobile {
+    0%,100% { transform: translate3d(0,0,0) scale(1); }
+    35% { transform: translate3d(1px,-2px,0) scale(1.002); }
+    70% { transform: translate3d(-1px,2px,0) scale(1.001); }
+}
+
+/* Уважает системную настройку "уменьшить движение" */
+@media (prefers-reduced-motion: reduce) {
+    .cosmic-scene,
+    .cosmic-rift,
+    .cosmic-orbit,
+    .cosmic-pe {
+        animation: none !important;
+        transform: none !important;
+    }
+    .cosmic-rift,
+    .cosmic-orbit,
+    .cosmic-pe,
+    #cosmicParticles {
+        display: none !important;
+    }
+}
