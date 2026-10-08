@@ -696,3 +696,23 @@ body.kazakh-ui-font .soon-badge {
 .collaboration-options {
     padding: 10px;
 }
+
+
+/* Настоящие флаги в меню языков */
+.flag-icon {
+    width: 1.35em;
+    height: 1em;
+    object-fit: cover;
+    border-radius: 2px;
+    flex: 0 0 auto;
+    box-shadow: 0 0 0 1px rgba(255,255,255,.22);
+}
+.language-toggle,
+.language-options button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.language-toggle {
+    white-space: nowrap;
+}
