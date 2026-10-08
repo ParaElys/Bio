@@ -510,7 +510,7 @@ let currentVersion = 'desktop';
         activateWithKeyboard(versionSwitch, toggleVersion);
         activateWithKeyboard(closeRulesButton, closeRules);
 
-        document.querySelectorAll('.support-disabled').forEach(link => {
+        document.querySelectorAll('.support-disabled, .social-disabled').forEach(link => {
             link.addEventListener('click', event => event.preventDefault());
         });
 
