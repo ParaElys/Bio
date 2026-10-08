@@ -4,7 +4,7 @@ let currentVersion = 'desktop';
     const translations = {
         ru: {
             languageLabel: 'Язык',
-            support: '💖 Поддержка',
+            support: '💖 Поддержать проект ParaElys',
             email: '📧 Связь по рекламе',
             rulesMenu: 'Правила сообщества',
             copyright: '© 2025 ParaElys | Все права защищены',
@@ -22,7 +22,7 @@ let currentVersion = 'desktop';
         },
         en: {
             languageLabel: 'Language',
-            support: '💖 Support',
+            support: '💖 Support the ParaElys project',
             email: '📧 Advertising inquiries',
             rulesMenu: 'Community Rules',
             copyright: '© 2025 ParaElys | All rights reserved',
@@ -40,7 +40,7 @@ let currentVersion = 'desktop';
         },
         ua: {
             languageLabel: 'Мова',
-            support: '💖 Підтримка',
+            support: '💖 Підтримати проєкт ParaElys',
             email: '📧 Зв’язок щодо реклами',
             rulesMenu: 'Правила спільноти',
             copyright: '© 2025 ParaElys | Усі права захищені',
@@ -152,6 +152,15 @@ let currentVersion = 'desktop';
         closeLanguageMenu();
     }
 
+    function toggleSupport() {
+        const block = document.getElementById('supportBlock');
+        const toggle = document.getElementById('supportToggle');
+        const willOpen = !block.classList.contains('open');
+
+        block.classList.toggle('open', willOpen);
+        toggle.setAttribute('aria-expanded', String(willOpen));
+    }
+
     function openRules() {
         closeDropdowns();
         closeLanguageMenu();
@@ -196,6 +205,7 @@ let currentVersion = 'desktop';
         const homeLink = document.getElementById('homeLink');
         const languageToggle = document.getElementById('languageToggle');
         const rulesMenu = document.getElementById('rulesMenu');
+        const supportToggle = document.getElementById('supportToggle');
         const versionSwitch = document.getElementById('versionSwitch');
         const closeRulesButton = document.getElementById('closeRulesButton');
         const rulesModal = document.getElementById('rulesModal');
@@ -204,6 +214,7 @@ let currentVersion = 'desktop';
         homeLink.addEventListener('click', goHome);
         languageToggle.addEventListener('click', toggleLanguageMenu);
         rulesMenu.addEventListener('click', openRules);
+        supportToggle.addEventListener('click', toggleSupport);
         versionSwitch.addEventListener('click', toggleVersion);
         closeRulesButton.addEventListener('click', closeRules);
         emailContactLink.addEventListener('click', openEmailContact);
