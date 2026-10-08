@@ -246,6 +246,32 @@
     }
 
     /* Мобильная версия */
+    /*
+       На мобильных браузерах background-attachment: fixed может "прыгать"
+       при скрытии/появлении адресной строки. Поэтому фон рисуется отдельным
+       фиксированным слоем стабильной высоты и не пересчитывает масштаб при скролле.
+    */
+    body.mobile-mode {
+        background: transparent;
+        position: relative;
+        isolation: isolate;
+    }
+    body.mobile-mode::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        height: 100lvh;
+        background:
+            url('background.png') center center / cover no-repeat,
+            radial-gradient(circle at center, #0a0a0f, #000000);
+        z-index: -1;
+        pointer-events: none;
+        transform: translateZ(0);
+        backface-visibility: hidden;
+    }
     body.mobile-mode header {
         padding: 12px 15px;
     }
