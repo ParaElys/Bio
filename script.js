@@ -443,9 +443,23 @@ let currentVersion = 'desktop';
         }
 
         let resizeTimer = 0;
+        let lastViewportWidth = window.innerWidth;
+        let lastViewportHeight = window.innerHeight;
+
         function scheduleRebuild() {
+            const nextWidth = window.innerWidth;
+            const nextHeight = window.innerHeight;
+            const widthChanged = Math.abs(nextWidth - lastViewportWidth) > 8;
+            const heightChanged = Math.abs(nextHeight - lastViewportHeight) > 140;
+
+            // На мобильных браузерах адресная строка постоянно меняет innerHeight
+            // во время скролла. Это не должно пересобирать фон и вызывать "прыжок".
+            if (useLiteMode() && !widthChanged && !heightChanged) return;
+
+            lastViewportWidth = nextWidth;
+            lastViewportHeight = nextHeight;
             clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(rebuild, 120);
+            resizeTimer = setTimeout(rebuild, 160);
         }
 
         window.refreshCosmicParticles = rebuild;
