@@ -19,7 +19,7 @@
 <meta name="twitter:description" content="Социальные сети, стримы, проекты, поддержка и сотрудничество с ParaElys.">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; object-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; frame-src 'none'; media-src 'none'; worker-src 'none'; manifest-src 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
-<link rel="stylesheet" href="styles.css?v=20261008-6">
+<link rel="stylesheet" href="styles.css?v=20261008-7">
 </head>
 <body>
 <div class="cosmic-stage" id="cosmicStage" aria-hidden="true">
@@ -33,7 +33,7 @@
 <header>
     <a id="homeLink" class="logo" href="#" aria-label="На главную">ParaElys</a>
     <div class="language-menu" id="languageMenu">
-        <button class="language-toggle" id="languageToggle" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="languageOptions"><img class="flag-icon" src="icons/flags/ru.svg" alt=""> <span id="languageToggleLabel">Язык</span> <span aria-hidden="true">▼</span></button>
+        <button class="language-toggle" id="languageToggle" type="button" aria-label="Язык" aria-haspopup="menu" aria-expanded="false" aria-controls="languageOptions"><img class="flag-icon" src="icons/flags/ru.svg" alt=""></button>
         <div class="language-options" id="languageOptions" role="menu">
             <button type="button" role="menuitem" data-lang="ru"><img class="flag-icon" src="icons/flags/ru.svg" alt="">Русский</button>
             <button type="button" role="menuitem" data-lang="en"><img class="flag-icon" src="icons/flags/gb.svg" alt="">English</button>
@@ -45,14 +45,14 @@
 
 <div class="links">
     <div class="column">
-        <a href="https://youtube.com/ParaElys" target="_blank" rel="noopener noreferrer" class="link-btn brand-youtube"><img class="brand-icon" src="icons/youtube.svg" alt="" aria-hidden="true">YouTube</a>
-        <a href="https://twitch.tv/ParaElys" target="_blank" rel="noopener noreferrer" class="link-btn brand-twitch"><img class="brand-icon" src="icons/twitch.svg" alt="" aria-hidden="true">Twitch</a>
-        <a href="https://discord.com/users/783690268620488744" target="_blank" rel="noopener noreferrer" class="link-btn brand-discord"><img class="brand-icon" src="icons/discord.svg" alt="" aria-hidden="true">Discord</a>
+        <a href="https://youtube.com/ParaElys" target="_blank" rel="noopener noreferrer" class="link-btn brand-youtube"><img class="brand-icon" src="icons/youtube.svg" alt="" aria-hidden="true"><span class="btn-label">YouTube</span></a>
+        <a href="https://twitch.tv/ParaElys" target="_blank" rel="noopener noreferrer" class="link-btn brand-twitch"><img class="brand-icon" src="icons/twitch.svg" alt="" aria-hidden="true"><span class="btn-label">Twitch</span></a>
+        <a href="https://discord.com/users/783690268620488744" target="_blank" rel="noopener noreferrer" class="link-btn brand-discord"><img class="brand-icon" src="icons/discord.svg" alt="" aria-hidden="true"><span class="btn-label">Discord</span></a>
     </div>
 
     <div class="column">
         <div class="dropdown">
-            <div class="link-btn brand-steam" data-dropdown-toggle role="button" tabindex="0" aria-haspopup="true" aria-expanded="false"><img class="brand-icon" src="icons/steam.svg" alt="" aria-hidden="true">Steam <span aria-hidden="true">▼</span></div>
+            <div class="link-btn brand-steam" data-dropdown-toggle role="button" tabindex="0" aria-haspopup="true" aria-expanded="false"><img class="brand-icon" src="icons/steam.svg" alt="" aria-hidden="true"><span class="btn-label">Steam</span><span class="menu-arrow" aria-hidden="true">▼</span></div>
             <div class="dropdown-content">
                 <a href="https://steamcommunity.com/id/SgAmeBplAy/" target="_blank" rel="noopener noreferrer">SgAmeBplAy</a>
                 <a href="https://steamcommunity.com/groups/ParaElys" target="_blank" rel="noopener noreferrer">ParaElys</a>
@@ -60,7 +60,7 @@
         </div>
 
         <div class="dropdown">
-            <div class="link-btn brand-tiktok" data-dropdown-toggle role="button" tabindex="0" aria-haspopup="true" aria-expanded="false"><img class="brand-icon" src="icons/tiktok.svg" alt="" aria-hidden="true">TikTok <span aria-hidden="true">▼</span></div>
+            <div class="link-btn brand-tiktok" data-dropdown-toggle role="button" tabindex="0" aria-haspopup="true" aria-expanded="false"><img class="brand-icon" src="icons/tiktok.svg" alt="" aria-hidden="true"><span class="btn-label">TikTok</span><span class="menu-arrow" aria-hidden="true">▼</span></div>
             <div class="dropdown-content">
                 <a href="https://www.tiktok.com/@paraelys" target="_blank" rel="noopener noreferrer">ParaElys</a>
                 <a href="https://www.tiktok.com/@paraelys.anime" target="_blank" rel="noopener noreferrer">ParaElys.Anime</a>
@@ -70,9 +70,9 @@
     </div>
 
     <div class="column">
-        <a href="https://t.me/ParaElys" target="_blank" rel="noopener noreferrer" class="link-btn brand-telegram"><img class="brand-icon" src="icons/telegram.svg" alt="" aria-hidden="true">Telegram</a>
-        <a href="https://instagram.com/ParaElys.Official" target="_blank" rel="noopener noreferrer" class="link-btn brand-instagram social-disabled" aria-disabled="true"><img class="brand-icon" src="icons/instagram.svg" alt="" aria-hidden="true">Instagram <span class="soon-badge" data-soon>Скоро</span></a>
-        <a href="https://twitter.com/ParaElys" target="_blank" rel="noopener noreferrer" class="link-btn brand-x social-disabled" aria-disabled="true"><img class="brand-icon" src="icons/x.svg" alt="" aria-hidden="true">X (Twitter) <span class="soon-badge" data-soon>Скоро</span></a>
+        <a href="https://t.me/ParaElys" target="_blank" rel="noopener noreferrer" class="link-btn brand-telegram"><img class="brand-icon" src="icons/telegram.svg" alt="" aria-hidden="true"><span class="btn-label">Telegram</span></a>
+        <a href="https://instagram.com/ParaElys.Official" target="_blank" rel="noopener noreferrer" class="link-btn brand-instagram social-disabled" aria-disabled="true"><img class="brand-icon" src="icons/instagram.svg" alt="" aria-hidden="true"><span class="btn-label">Instagram</span><span class="soon-badge" data-soon>Скоро</span></a>
+        <a href="https://twitter.com/ParaElys" target="_blank" rel="noopener noreferrer" class="link-btn brand-x social-disabled" aria-disabled="true"><img class="brand-icon" src="icons/x.svg" alt="" aria-hidden="true"><span class="btn-label">X (Twitter)</span><span class="soon-badge" data-soon>Скоро</span></a>
     </div>
 </div>
 
@@ -82,12 +82,12 @@
         <span class="support-arrow" aria-hidden="true">▼</span>
     </button>
     <div class="support-links" id="supportLinks">
-        <a href="#" class="support-service brand-paypal support-disabled" aria-disabled="true" tabindex="-1"><img class="brand-icon" src="icons/paypal.svg" alt="" aria-hidden="true">PayPal <span class="soon-badge" data-soon>Скоро</span></a>
-        <a href="https://send.monobank.ua/jar/ATRMQ6Q4ir" target="_blank" rel="noopener noreferrer" class="support-service brand-monobank"><img class="brand-icon" src="icons/monobank.svg" alt="" aria-hidden="true">Monobank</a>
-        <a href="#" class="support-service brand-donationalerts support-disabled" aria-disabled="true" tabindex="-1"><img class="brand-icon" src="icons/donationalerts.svg" alt="" aria-hidden="true">DonationAlerts <span class="soon-badge" data-soon>Скоро</span></a>
-        <a href="https://steamcommunity.com/tradeoffer/new/?partner=419988897&token=-GGvnD6H" target="_blank" rel="noopener noreferrer" class="support-service brand-steam"><img class="brand-icon" src="icons/steam.svg" alt="" aria-hidden="true">Steam Trade</a>
-        <a href="#" class="support-service brand-patreon support-disabled" aria-disabled="true" tabindex="-1"><img class="brand-icon" src="icons/patreon.svg" alt="" aria-hidden="true">Patreon <span class="soon-badge" data-soon>Скоро</span></a>
-        <a href="#" class="support-service brand-boosty support-disabled" aria-disabled="true" tabindex="-1"><img class="brand-icon" src="icons/boosty.svg" alt="" aria-hidden="true">Boosty <span class="soon-badge" data-soon>Скоро</span></a>
+        <a href="#" class="support-service brand-paypal support-disabled" aria-disabled="true" tabindex="-1"><img class="brand-icon" src="icons/paypal.svg" alt="" aria-hidden="true"><span class="btn-label">PayPal</span><span class="soon-badge" data-soon>Скоро</span></a>
+        <a href="https://send.monobank.ua/jar/ATRMQ6Q4ir" target="_blank" rel="noopener noreferrer" class="support-service brand-monobank"><img class="brand-icon" src="icons/monobank.svg" alt="" aria-hidden="true"><span class="btn-label">Monobank</span></a>
+        <a href="#" class="support-service brand-donationalerts support-disabled" aria-disabled="true" tabindex="-1"><img class="brand-icon" src="icons/donationalerts.svg" alt="" aria-hidden="true"><span class="btn-label">DonationAlerts</span><span class="soon-badge" data-soon>Скоро</span></a>
+        <a href="https://steamcommunity.com/tradeoffer/new/?partner=419988897&token=-GGvnD6H" target="_blank" rel="noopener noreferrer" class="support-service brand-steam"><img class="brand-icon" src="icons/steam.svg" alt="" aria-hidden="true"><span class="btn-label">Steam Trade</span></a>
+        <a href="#" class="support-service brand-patreon support-disabled" aria-disabled="true" tabindex="-1"><img class="brand-icon" src="icons/patreon.svg" alt="" aria-hidden="true"><span class="btn-label">Patreon</span><span class="soon-badge" data-soon>Скоро</span></a>
+        <a href="#" class="support-service brand-boosty support-disabled" aria-disabled="true" tabindex="-1"><img class="brand-icon" src="icons/boosty.svg" alt="" aria-hidden="true"><span class="btn-label">Boosty</span><span class="soon-badge" data-soon>Скоро</span></a>
     </div>
 </div>
 
@@ -127,7 +127,7 @@
     </div>
 </div>
 
-<script src="script.js?v=20261008-6" defer></script>
+<script src="script.js?v=20261008-7" defer></script>
 
 </body>
 </html>
